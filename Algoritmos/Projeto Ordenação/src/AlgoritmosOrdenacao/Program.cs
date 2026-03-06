@@ -118,29 +118,33 @@ static void UpdateDocsIndex(string docsDir)
         ? ["Relatorio-Demo.html", .. timestamped]
         : timestamped;
 
-    var listItems = allHtml.Select(f => {
+    var cardItems = allHtml.Select(f => {
+        string label;
         if (f == "Relatorio-Demo.html")
-            return "    <li><a href=\"Relatorio-Demo.html\">Demo (10 elementos)</a></li>";
-        var name = f!.Replace("Relatorio-", "").Replace(".html", "");
-        var parts = name.Split('-');
-        string label = name.Replace("-", " ");
-        if (parts.Length >= 2)
+            label = "Demo (10 elementos)";
+        else
         {
-            var last = parts[^1];
-            if (last.Length >= 8 && last.Contains('_')) // yyyyMMdd_HHmmss
+            var name = f!.Replace("Relatorio-", "").Replace(".html", "");
+            var parts = name.Split('-');
+            label = name.Replace("-", " ");
+            if (parts.Length >= 2)
             {
-                var modoNome = string.Join(" ", parts[..^1]);
-                var d = last[6..8];
-                var m = last[4..6];
-                var y = last[0..4];
-                var h = last.Length > 9 ? last[9..11] : "";
-                var min = last.Length > 11 ? last[11..13] : "";
-                label = string.IsNullOrEmpty(h) ? $"{modoNome} ({d}/{m}/{y})" : $"{modoNome} ({d}/{m}/{y} {h}:{min})";
+                var last = parts[^1];
+                if (last.Length >= 8 && last.Contains('_')) // yyyyMMdd_HHmmss
+                {
+                    var modoNome = string.Join(" ", parts[..^1]);
+                    var d = last[6..8];
+                    var m = last[4..6];
+                    var y = last[0..4];
+                    var h = last.Length > 9 ? last[9..11] : "";
+                    var min = last.Length > 11 ? last[11..13] : "";
+                    label = string.IsNullOrEmpty(h) ? $"{modoNome} ({d}/{m}/{y})" : $"{modoNome} ({d}/{m}/{y} {h}:{min})";
+                }
             }
         }
-        return $"    <li><a href=\"{f}\">{label}</a></li>";
+        return $"    <a href=\"{f}\" class=\"report-card\">{label}</a>";
     });
-    var listHtml = string.Join("\n", listItems);
+    var cardsHtml = string.Join("\n", cardItems);
 
     var machineLines = MachineInfo.CollectStaticDescription().Split('\n', StringSplitOptions.RemoveEmptyEntries);
     var machineInfoHtml = string.Join("", machineLines.Select(l => $"<li>{l.TrimStart('•', ' ')}</li>"));
@@ -165,16 +169,16 @@ h3 { color: #9aa8c2; }
 .metodologia { background: #252525; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); line-height: 1.7; }
 a { color: #6ba3e8; text-decoration: none; }
 a:hover { text-decoration: underline; }
-.report-list { list-style: none; padding: 0; margin: 1rem 0; }
-.report-list li { display: block; margin: 0.5rem 0; padding: 0.75rem 1rem; background: #2d2d2d; border-left: 4px solid #4a6fa5; border-radius: 4px; }
-.report-list a { display: block; color: #6ba3e8; font-weight: 600; }
-.report-list a:hover { color: #8bb8f0; }
+.report-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin: 1rem 0; }
+@media (max-width: 900px) { .report-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .report-grid { grid-template-columns: 1fr; } }
+.report-card { display: block; padding: 1rem 1.25rem; background: #2d2d2d; border: 1px solid #333; border-radius: 8px; color: #6ba3e8; font-weight: 600; text-decoration: none; transition: background 0.2s, border-color 0.2s; }
+.report-card:hover { background: #353535; border-color: #4a6fa5; color: #8bb8f0; }
 p { color: #b0b0b0; margin: 0.5rem 0; }
 code { background: #3a3a3a; color: #c9a959; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
 .github-link { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; padding: 0.5rem 1rem; background: #24292e; color: #e0e0e0 !important; border-radius: 6px; font-weight: 600; }
 .github-link:hover { background: #333; text-decoration: none; color: #e0e0e0 !important; }
 .info-maquina { font-size: 0.95rem; margin: 0.5rem 0; color: #b0b0b0; }
-.footer-note { font-size: 0.9rem; color: #888; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #333; }
   </style>
 </head>
 <body>
@@ -204,16 +208,12 @@ code { background: #3a3a3a; color: #c9a959; padding: 0.1em 0.3em; border-radius:
 
   <h2>Relatórios</h2>
   <p>Clique para visualizar cada relatório com metodologia, resultados e gráficos.</p>
-  <ul class=""report-list"">
-" + listHtml + @"
-  </ul>
+  <div class=""report-grid"">
+" + cardsHtml + @"
+  </div>
 
   <a href=""https://github.com/thiagokellervicco/MestradoMackenzie/tree/master/Algoritmos/Projeto%20Ordena%C3%A7%C3%A3o"" target=""_blank"" rel=""noopener"" class=""github-link"">Ver código no GitHub</a>
 </section>
-
-<p class=""footer-note"">
-  Execute <code>dotnet run --project src/AlgoritmosOrdenacao -- --demo-report</code> ou <code>--demo-report --optimized</code> para gerar o relatório Demo. Use <code>dotnet run ... -- --pages</code> após benchmarks completos para atualizar a lista.
-</p>
 </body>
 </html>
 """;
