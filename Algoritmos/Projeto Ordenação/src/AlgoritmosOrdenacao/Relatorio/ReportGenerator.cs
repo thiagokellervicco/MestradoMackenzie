@@ -27,6 +27,13 @@ public sealed class ReportGenerator(string outputPath)
         sb.AppendLine("  </style>");
         sb.AppendLine("</head>");
         sb.AppendLine("<body>");
+        sb.AppendLine("  <nav class=\"breadcrumb\" aria-label=\"Navegação\">");
+        sb.AppendLine("    <a href=\"../../../index.html\">Mestrado</a>");
+        sb.AppendLine("    <span class=\"sep\">›</span>");
+        sb.AppendLine("    <a href=\"index.html\">Algoritmos de Ordenação</a>");
+        sb.AppendLine("    <span class=\"sep\">›</span>");
+        sb.AppendLine("    <span aria-current=\"page\">Relatório</span>");
+        sb.AppendLine("  </nav>");
 
         sb.AppendLine(GetMethodologySection(results, totalElapsed));
         sb.AppendLine(GetSampleArraysSection(results));
@@ -47,28 +54,35 @@ public sealed class ReportGenerator(string outputPath)
 
     private static string GetCssStyles() => """
         * { box-sizing: border-box; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; max-width: 1200px; margin: 0 auto; padding: 2rem; background: #f5f5f5; }
-        h1 { color: #1a1a2e; border-bottom: 3px solid #16213e; padding-bottom: 0.5rem; }
-        h2 { color: #16213e; margin-top: 2rem; }
-        h3 { color: #0f3460; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 1rem 0; }
-        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid #eee; }
-        th { background: #16213e; color: white; }
-        tr:hover { background: #f8f9fa; }
-        .metodologia { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); line-height: 1.7; }
-        .analise { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 1rem 0; line-height: 1.8; }
-        .chart-container { position: relative; min-height: 400px; margin: 2rem 0; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; max-width: 1200px; margin: 0 auto; padding: 2rem; background: #1a1a1a; color: #e0e0e0; }
+        .breadcrumb { font-size: 0.9rem; color: #9aa8c2; margin-bottom: 1.5rem; }
+        .breadcrumb a { color: #6ba3e8; text-decoration: none; }
+        .breadcrumb a:hover { color: #8bb8f0; text-decoration: underline; }
+        .breadcrumb .sep { margin: 0 0.4rem; opacity: 0.7; }
+        h1 { color: #e8e8e8; border-bottom: 3px solid #4a6fa5; padding-bottom: 0.5rem; }
+        h2 { color: #c8d4e6; margin-top: 2rem; }
+        h3 { color: #9aa8c2; }
+        table { width: 100%; border-collapse: collapse; background: #252525; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.3); margin: 1rem 0; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid #333; color: #e0e0e0; }
+        th { background: #2d3a4f; color: #e0e0e0; }
+        tr:hover { background: #2d2d2d; }
+        .metodologia { background: #252525; border: 1px solid #333; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); line-height: 1.7; color: #b0b0b0; }
+        .metodologia p { color: #b0b0b0; }
+        .metodologia li { color: #b0b0b0; }
+        .analise { background: #252525; border: 1px solid #333; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; line-height: 1.8; color: #b0b0b0; }
+        .analise p { color: #b0b0b0; }
+        .chart-container { position: relative; min-height: 400px; margin: 2rem 0; background: #252525; border: 1px solid #333; padding: 1rem; border-radius: 8px; }
         .chart-container canvas { height: 400px !important; }
         .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; }
-        .badge-aleatorio { background: #e3f2fd; color: #1565c0; }
-        .badge-crescente { background: #e8f5e9; color: #2e7d32; }
-        .badge-decrescente { background: #fff3e0; color: #ef6c00; }
-        a { color: #1565c0; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        code { background: #f0f0f0; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
-        .info-maquina { font-size: 0.95rem; }
-        .chart-melhor { margin-top: 0.5rem; padding: 0.5rem 1rem; background: #e8f5e9; border-left: 4px solid #2e7d32; font-weight: 600; }
-        .observacao { background: #fff8e1; padding: 0.75rem 1rem; border-left: 4px solid #ffc107; font-size: 0.95rem; margin: 1rem 0; }
+        .badge-aleatorio { background: #2d3a4f; color: #6ba3e8; }
+        .badge-crescente { background: #2d3a2d; color: #7cb87c; }
+        .badge-decrescente { background: #4a3a2d; color: #e89b6b; }
+        a { color: #6ba3e8; text-decoration: none; }
+        a:hover { color: #8bb8f0; text-decoration: underline; }
+        code { background: #3a3a3a; color: #c9a959; padding: 0.15em 0.4em; border-radius: 3px; font-size: 0.9em; }
+        .info-maquina { font-size: 0.95rem; color: #b0b0b0; }
+        .chart-melhor { margin-top: 0.5rem; padding: 0.5rem 1rem; background: #2d3a2d; border-left: 4px solid #4a9e4a; font-weight: 600; color: #b0e0b0; }
+        .observacao { background: #4a4520; padding: 0.75rem 1rem; border-left: 4px solid #c9a959; font-size: 0.95rem; margin: 1rem 0; color: #e0d8b0; }
         .io-table { margin-top: 0.5rem; }
         .io-table code { font-size: 0.8em; word-break: break-all; }
         """;
@@ -285,7 +299,8 @@ public sealed class ReportGenerator(string outputPath)
             sb.AppendLine($"      maintainAspectRatio: false,");
             sb.AppendLine($"      plugins: {{ legend: {{ display: false }} }},");
             sb.AppendLine($"      scales: {{");
-            sb.AppendLine($"        y: {{ beginAtZero: true, title: {{ display: true, text: 'Tempo (s)' }} }}");
+            sb.AppendLine($"        x: {{ ticks: {{ color: '#9aa8c2' }}, grid: {{ color: '#333' }} }},");
+            sb.AppendLine($"        y: {{ beginAtZero: true, ticks: {{ color: '#9aa8c2' }}, grid: {{ color: '#333' }}, title: {{ display: true, text: 'Tempo (s)', color: '#9aa8c2' }} }}");
             sb.AppendLine($"      }}");
             sb.AppendLine($"    }}");
             sb.AppendLine($"  }});");

@@ -107,14 +107,20 @@ static string FormatTotalTime(TimeSpan t)
 
 static void UpdateDocsIndex(string docsDir)
 {
-
-    var allHtml = Directory.GetFiles(docsDir, "Relatorio*.html")
+    var timestamped = Directory.GetFiles(docsDir, "Relatorio*.html")
         .Select(Path.GetFileName)
         .Where(n => n != null && System.Text.RegularExpressions.Regex.IsMatch(n, @"Relatorio-[^-]+-\d{8}_\d{6}\.html$"))
         .OrderDescending()
         .ToList();
 
+    var demoPath = Path.Combine(docsDir, "Relatorio-Demo.html");
+    var allHtml = File.Exists(demoPath)
+        ? ["Relatorio-Demo.html", .. timestamped]
+        : timestamped;
+
     var listItems = allHtml.Select(f => {
+        if (f == "Relatorio-Demo.html")
+            return "    <li><a href=\"Relatorio-Demo.html\">Demo (10 elementos)</a></li>";
         var name = f!.Replace("Relatorio-", "").Replace(".html", "");
         var parts = name.Split('-');
         string label = name.Replace("-", " ");
@@ -145,28 +151,35 @@ static void UpdateDocsIndex(string docsDir)
 <head>
   <meta charset=""UTF-8"">
   <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
-  <title>Algoritmos de Ordenação</title>
+  <meta name=""description"" content=""Projeto de Mestrado — Comparação de desempenho entre algoritmos clássicos de ordenação em C# (Bubble, Selection, Insertion, Merge, Quick Sort e otimizados)."">
+  <link rel=""icon"" href=""https://upload.wikimedia.org/wikipedia/commons/2/2e/Mackenzie_M.png"" type=""image/png"">
+  <title>Algoritmos de Ordenação — Mestrado Mackenzie</title>
   <style>
 * { box-sizing: border-box; }
-body { font-family: 'Segoe UI', system-ui, sans-serif; max-width: 1200px; margin: 0 auto; padding: 2rem; background: #f5f5f5; }
-h1 { color: #1a1a2e; border-bottom: 3px solid #16213e; padding-bottom: 0.5rem; }
-h2 { color: #16213e; margin-top: 2rem; }
-h3 { color: #0f3460; }
-.metodologia { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); line-height: 1.7; }
-a { color: #1565c0; text-decoration: none; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; max-width: 1200px; margin: 0 auto; padding: 2rem; background: #1a1a1a; color: #e0e0e0; }
+.back-link { display: inline-block; font-size: 0.9rem; color: #9aa8c2; text-decoration: none; margin-bottom: 1.5rem; }
+.back-link:hover { color: #6ba3e8; }
+h1 { color: #e8e8e8; border-bottom: 3px solid #4a6fa5; padding-bottom: 0.5rem; }
+h2 { color: #c8d4e6; margin-top: 2rem; }
+h3 { color: #9aa8c2; }
+.metodologia { background: #252525; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); line-height: 1.7; }
+a { color: #6ba3e8; text-decoration: none; }
 a:hover { text-decoration: underline; }
 .report-list { list-style: none; padding: 0; margin: 1rem 0; }
-.report-list li { display: block; margin: 0.5rem 0; padding: 0.75rem 1rem; background: #f8f9fa; border-left: 4px solid #16213e; border-radius: 4px; }
-.report-list a { display: block; color: #1565c0; font-weight: 600; }
-.report-list a:hover { color: #0d47a1; }
-p { color: #444; margin: 0.5rem 0; }
-code { background: #f0f0f0; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
-.github-link { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; padding: 0.5rem 1rem; background: #24292e; color: white !important; border-radius: 6px; font-weight: 600; }
-.github-link:hover { background: #333; text-decoration: none; color: white !important; }
-.info-maquina { font-size: 0.95rem; margin: 0.5rem 0; }
+.report-list li { display: block; margin: 0.5rem 0; padding: 0.75rem 1rem; background: #2d2d2d; border-left: 4px solid #4a6fa5; border-radius: 4px; }
+.report-list a { display: block; color: #6ba3e8; font-weight: 600; }
+.report-list a:hover { color: #8bb8f0; }
+p { color: #b0b0b0; margin: 0.5rem 0; }
+code { background: #3a3a3a; color: #c9a959; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
+.github-link { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; padding: 0.5rem 1rem; background: #24292e; color: #e0e0e0 !important; border-radius: 6px; font-weight: 600; }
+.github-link:hover { background: #333; text-decoration: none; color: #e0e0e0 !important; }
+.info-maquina { font-size: 0.95rem; margin: 0.5rem 0; color: #b0b0b0; }
+.footer-note { font-size: 0.9rem; color: #888; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #333; }
   </style>
 </head>
 <body>
+  <a href=""../../../index.html"" class=""back-link"">← Voltar ao Mestrado</a>
+
 <section class=""metodologia"">
   <h1>Algoritmos de Ordenação</h1>
   <p><strong>Aluno:</strong> Thiago Keller | <strong>RA:</strong> 10779365 | <strong>Curso:</strong> Mestrado de Computação Aplicada</p>
@@ -192,19 +205,18 @@ code { background: #f0f0f0; padding: 0.1em 0.3em; border-radius: 3px; font-size:
   <h2>Relatórios</h2>
   <p>Clique para visualizar cada relatório com metodologia, resultados e gráficos.</p>
   <ul class=""report-list"">
-" + listHtml + """
+" + listHtml + @"
+  </ul>
 
-                 </ul>
+  <a href=""https://github.com/thiagokellervicco/MestradoMackenzie/tree/master/Algoritmos/Projeto%20Ordena%C3%A7%C3%A3o"" target=""_blank"" rel=""noopener"" class=""github-link"">Ver código no GitHub</a>
+</section>
 
-                 <a href="https://github.com/thiagokellervicco/ProjetoAlgoritmoMackenzie" target="_blank" rel="noopener" class="github-link">Ver código no GitHub</a>
-               </section>
-
-               <p style="font-size: 0.9rem; color: #666; margin-top: 1rem;">
-                 Execute <code>dotnet run --project src/AlgoritmosOrdenacao -- --pages</code> para gerar um novo relatório.
-               </p>
-               </body>
-               </html>
-               """;
+<p class=""footer-note"">
+  Execute <code>dotnet run --project src/AlgoritmosOrdenacao -- --demo-report</code> ou <code>--demo-report --optimized</code> para gerar o relatório Demo. Use <code>dotnet run ... -- --pages</code> após benchmarks completos para atualizar a lista.
+</p>
+</body>
+</html>
+""";
     File.WriteAllText(indexPath, indexContent);
     Console.WriteLine($"Índice atualizado: {indexPath}");
 }

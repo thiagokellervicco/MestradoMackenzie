@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Algoritmos de Ordenação</title>
+  <meta name="description" content="Projeto de Mestrado — Comparação de desempenho entre algoritmos clássicos de ordenação em C# (Bubble, Selection, Insertion, Merge, Quick Sort e otimizados).">
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/2/2e/Mackenzie_M.png" type="image/png">
+  <title>Algoritmos de Ordenação — Mestrado Mackenzie</title>
   <style>
 * { box-sizing: border-box; }
 body {
@@ -53,9 +55,20 @@ code { background: #3a3a3a; color: #c9a959; padding: 0.1em 0.3em; border-radius:
 }
 .github-link:hover { background: #333; text-decoration: none; color: #e0e0e0 !important; }
 .info-maquina { font-size: 0.95rem; margin: 0.5rem 0; color: #b0b0b0; }
+.breadcrumb { font-size: 0.9rem; color: #9aa8c2; margin-bottom: 1.5rem; }
+.breadcrumb a { color: #6ba3e8; text-decoration: none; }
+.breadcrumb a:hover { color: #8bb8f0; text-decoration: underline; }
+.breadcrumb .sep { margin: 0 0.4rem; opacity: 0.7; }
+.footer-note { font-size: 0.9rem; color: #888; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #333; }
   </style>
 </head>
 <body>
+  <nav class="breadcrumb" aria-label="Navegação">
+    <a href="../../../index.html">Mestrado</a>
+    <span class="sep">›</span>
+    <span aria-current="page">Algoritmos de Ordenação</span>
+  </nav>
+
 <section class="metodologia">
   <h1>Algoritmos de Ordenação</h1>
   <p><strong>Aluno:</strong> Thiago Keller | <strong>RA:</strong> 10779365 | <strong>Curso:</strong> Mestrado de Computação Aplicada</p>
@@ -81,10 +94,15 @@ code { background: #3a3a3a; color: #c9a959; padding: 0.1em 0.3em; border-radius:
     <h2>Relatórios</h2>
     <p>Clique para visualizar cada relatório com metodologia, resultados e gráficos.</p>
     <ul class="report-list">
+      <li><a href="Relatorio-Demo.html">Demo (10 elementos)</a></li>
     </ul>
 
   <a href="https://github.com/thiagokellervicco/MestradoMackenzie/tree/master/Algoritmos/Projeto%20Ordena%C3%A7%C3%A3o" target="_blank" rel="noopener" class="github-link">Ver código no GitHub</a>
 </section>
+
+<p class="footer-note">
+  Execute <code>dotnet run --project src/AlgoritmosOrdenacao -- --demo-report</code> ou <code>--demo-report --optimized</code> para gerar o relatório Demo. Use <code>dotnet run ... -- --pages</code> após benchmarks completos para atualizar a lista.
+</p>
 
 </body>
 </html>
