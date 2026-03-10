@@ -1,36 +1,35 @@
 # Algoritmos de Ordenação
 
-Projeto de Mestrado – Comparação de desempenho entre algoritmos clássicos de ordenação.
+Comparação de desempenho entre algoritmos clássicos e otimizados de ordenação em C#.
 
-**Aluno:** Thiago Keller | **RA:** 10779365 | **Curso:** Mestrado de Computação Aplicada | **Instituição:** Universidade Presbiteriana Mackenzie | **Professora:** Dra Valeria Farinazzo Martins | **Ano:** 2026 (1º semestre)
+**Aluno:** Thiago Keller | **RA:** 10779365 | **Curso:** Mestrado de Computação Aplicada  
+**Instituição:** Universidade Presbiteriana Mackenzie | **Professora:** Dra Valeria Farinazzo Martins  
+**Ano:** 2026 (1º semestre)
+
+---
 
 ## Sobre o Projeto
 
-Este projeto implementa uma comparação de desempenho entre diversos algoritmos de ordenação em C#, gerando relatórios HTML com resultados, gráficos e análise de complexidade assintótica.
+Este projeto implementa uma comparação de desempenho entre diversos algoritmos de ordenação em C#, gerando relatórios HTML com resultados, gráficos comparativos e análise de complexidade assintótica. Cada benchmark executa **5 iterações** por combinação (algoritmo × tamanho × tipo de entrada), reportando a mediana dos tempos e da memória alocada.
 
-### Algoritmos Implementados
+---
 
-| Algoritmo | Complexidade | Descrição |
-|-----------|--------------|-----------|
-| Bubble Sort (Original) | O(n²) | Implementação clássica |
-| Selection Sort | O(n²) | Seleção do menor elemento |
-| Insertion Sort | O(n²) | Inserção ordenada |
-| Merge Sort | O(n log n) | Divisão e conquista |
-| Quick Sort | O(n log n) | Pivô fixo |
-| Quick Sort (Pivô Aleatório) | O(n log n) | Pivô aleatório para evitar pior caso |
-| Array.Sort (C# Nativo) | O(n log n) | IntroSort da biblioteca .NET |
+## Algoritmos e Complexidade
 
-### Algoritmos Otimizados
-
-Versões otimizadas disponíveis com `--optimized`. Fontes:
-
-| Algoritmo | Otimização | Fonte |
-|-----------|------------|-------|
-| Bubble Sort (Optimized) | Early exit quando não há trocas | Literatura de algoritmos |
-| Insertion Sort (Sentinel) | Sentinela em A[0] elimina checagem `j ≥ 0` | Cormen et al., Cap. 2 |
-| Selection Sort (Double) | Busca menor e maior por passagem | Variação clássica |
-| Merge Sort (Single Aux Array) | Um único array auxiliar | Cormen et al., Cap. 2 |
-| Quick Sort (Hoare + Median + Insertion) | Hoare + mediana-de-três + Insertion (n≤15) | Cormen Cap. 7, Sedgewick (mediana) |
+| Algoritmo | Melhor Caso | Caso Médio | Pior Caso |
+|-----------|-------------|------------|-----------|
+| Bubble Sort | O(n²) | O(n²) | O(n²) |
+| Bubble Sort (Optimized) | O(n) | O(n²) | O(n²) |
+| Selection Sort | O(n²) | O(n²) | O(n²) |
+| Selection Sort (Double) | O(n²) | O(n²) | O(n²) |
+| Insertion Sort | O(n) | O(n²) | O(n²) |
+| Insertion Sort (Sentinel) | O(n) | O(n²) | O(n²) |
+| Merge Sort | O(n log n) | O(n log n) | O(n log n) |
+| Merge Sort (Single Aux) | O(n log n) | O(n log n) | O(n log n) |
+| Quick Sort | O(n log n) | O(n log n) | O(n²) |
+| Quick Sort (Pivô Aleatório) | O(n log n) | O(n log n) | O(n²) |
+| Quick Sort (Hoare + Median + Insertion) | O(n log n) | O(n log n) | O(n²) |
+| Array.Sort (C# Nativo) | O(n log n) | O(n log n) | O(n log n) |
 
 ### Tipos de Entrada
 
@@ -38,74 +37,97 @@ Versões otimizadas disponíveis com `--optimized`. Fontes:
 - **Crescente** – Dados já ordenados
 - **Decrescente** – Dados em ordem inversa
 
+---
+
 ## Pré-requisitos
 
 - [.NET 9 SDK](https://dotnet.microsoft.com/download) ou superior
 
+---
+
 ## Como Executar
 
-```bash
-# Navegar até o projeto
-cd "Projeto 1 - Algoritmo"
+> **Importante:** Para resultados com otimizações reais do JIT, use sempre o modo **Release** (`-c Release`).
 
-# Demonstração rápida (10 registros, entrada e saída)
+### Benchmark completo em Release (recomendado)
+
+```bash
+dotnet run -c Release --project src/AlgoritmosOrdenacao -- --optimized
+```
+
+### Outros comandos
+
+```bash
+# Demonstração no console (10 elementos, entrada e saída)
 dotnet run --project src/AlgoritmosOrdenacao -- --demo
 
-# Relatório Demo: executa benchmark com 10 elementos e salva em docs/Relatorio-Demo.html
+# Relatório Demo (10 elementos) → docs/Relatorio-Demo.html
 dotnet run --project src/AlgoritmosOrdenacao -- --demo-report
 
 # Teste completo (1.000, 10.000, 100.000 elementos)
 dotnet run --project src/AlgoritmosOrdenacao
 
-# Com algoritmos otimizados (padrão + otimizados)
+# Com algoritmos otimizados
 dotnet run --project src/AlgoritmosOrdenacao -- --optimized
 
-# Modo rápido (1.000 e 10.000 elementos, para validação)
+# Modo rápido (1.000 e 10.000 elementos)
 dotnet run --project src/AlgoritmosOrdenacao -- --rapido
 
 # Modo ultra (inclui 10M elementos, apenas O(n log n))
 dotnet run --project src/AlgoritmosOrdenacao -- --ultra
+
+# Atualizar apenas o índice de relatórios em docs/
+dotnet run --project src/AlgoritmosOrdenacao -- --index-only
 ```
+
+### Por que o modo Release é fundamental?
+
+- **Otimização de Código:** No modo Debug, o compilador mantém o código "literal" para facilitar o rastreio. No Release, reescreve partes do algoritmo para rodar mais rápido.
+- **Performance do GC:** O Garbage Collector se comporta de forma mais agressiva e eficiente em Release.
+- **Remoção de NOP:** O modo Debug insere instruções vazias para breakpoints, adicionando latência visível em vetores grandes.
 
 ### Por que o modo ultra usa apenas O(n log n) em 10M elementos?
 
-Algoritmos O(n²) — Bubble Sort, Selection Sort, Insertion Sort — tornam-se impraticáveis com vetores muito grandes:
+Algoritmos O(n²) tornam-se impraticáveis com vetores muito grandes:
 
-| Tamanho    | O(n log n) | O(n²)     |
-|------------|------------|-----------|
-| 100.000    | segundos   | minutos   |
-| 10.000.000 | poucos min | horas/dias|
+| Tamanho | O(n log n) | O(n²) |
+|---------|------------|-------|
+| 100.000 | segundos | minutos |
+| 10.000.000 | poucos min | horas/dias |
 
-Com 10 milhões de elementos, O(n²) significa ~100 trilhões de operações, o que levaria horas ou dias. Já O(n log n) é ~230 milhões de operações — viável em poucos minutos. Por isso, para tamanhos ≥ 1M, o modo ultra executa apenas Merge Sort, Quick Sort e Array.Sort.
+Para 10 milhões de elementos, O(n²) significa ~100 trilhões de operações. O modo ultra executa apenas Merge Sort, Quick Sort e Array.Sort nesse cenário.
+
+---
 
 ## Estrutura do Projeto
 
 ```
-├── docs/                    # Relatórios HTML (GitHub Pages)
-│   ├── index.html           # Página inicial (info da máquina, algoritmos otimizados)
-│   └── Relatorio-*.html     # Relatórios gerados
+├── docs/                       # Relatórios HTML (GitHub Pages)
+│   ├── index.html              # Página inicial
+│   └── Relatorio-*.html        # Relatórios gerados
 ├── src/AlgoritmosOrdenacao/
-│   ├── Algoritmos/          # Algoritmos clássicos
-│   ├── AlgoritmosOtimizados/  # Versões otimizadas (Bubble, Insertion, Selection, Merge, Quick)
-│   ├── Core/                # Runner e Result
-│   ├── Relatorio/           # ReportGenerator, MachineInfo
+│   ├── Algoritmos/             # Algoritmos clássicos
+│   ├── AlgoritmosOtimizados/   # Versões otimizadas
+│   ├── Core/                   # BenchmarkRunner, DataGenerator
+│   ├── Relatorio/              # ReportGenerator, MachineInfo
 │   └── Program.cs
-├── Relatorio/               # Cópias locais dos relatórios
 └── README.md
 ```
 
+---
+
 ## Relatórios
 
-A página inicial (`docs/index.html`) concentra informações da máquina e a descrição dos algoritmos otimizados. Os relatórios incluem:
+A página inicial (`docs/index.html`) contém informações da máquina, tabela de complexidade, descrição dos algoritmos otimizados e comandos de benchmark. Cada relatório HTML inclui:
 
 - Estado da execução (fonte de energia, memória GC)
-- Tabelas com tempos (mediana, mínimo, máximo)
-- Gráficos interativos (Chart.js)
-- Análise de eficiência e complexidade assintótica
+- Tabelas com tempos (mediana, mínimo, máximo) e memória
+- Gráficos comparativos (Chart.js, escala linear em segundos)
+
+---
 
 ## Referências
 
-- Cormen, T. H., et al. *Introduction to Algorithms* (3ª edição), MIT Press.  
-  Algoritmos base e otimizações: Insertion Sort com sentinela (Cap. 2), Merge Sort com array auxiliar único (Cap. 2), particionamento de Hoare no Quick Sort (Cap. 7).
-- Sedgewick, R. *Algorithms* (4ª edição). Mediana de três como pivô no Quick Sort.
+- Cormen, T. H., et al. *Introduction to Algorithms* (3ª ed.), MIT Press.
+- Sedgewick, R. *Algorithms* (4ª ed.). Mediana de três no Quick Sort.
 - Documentação .NET – [Array.Sort](https://learn.microsoft.com/dotnet/api/system.array.sort) (IntroSort).
