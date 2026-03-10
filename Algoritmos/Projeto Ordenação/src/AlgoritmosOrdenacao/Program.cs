@@ -179,6 +179,12 @@ code { background: #3a3a3a; color: #c9a959; padding: 0.1em 0.3em; border-radius:
 .github-link { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; padding: 0.5rem 1rem; background: #24292e; color: #e0e0e0 !important; border-radius: 6px; font-weight: 600; }
 .github-link:hover { background: #333; text-decoration: none; color: #e0e0e0 !important; }
 .info-maquina { font-size: 0.95rem; margin: 0.5rem 0; color: #b0b0b0; }
+.algoritmos-table { width: 100%; border-collapse: collapse; margin: 1rem 0; background: #252525; border-radius: 8px; overflow: hidden; }
+.algoritmos-table th, .algoritmos-table td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid #333; }
+.algoritmos-table th { background: #2d2d2d; color: #9aa8c2; font-weight: 600; }
+.algoritmos-table td { color: #e0e0e0; }
+.algoritmos-table tr:last-child td { border-bottom: none; }
+.algoritmos-table code { background: #3a3a3a; color: #c9a959; }
   </style>
 </head>
 <body>
@@ -189,6 +195,28 @@ code { background: #3a3a3a; color: #c9a959; padding: 0.1em 0.3em; border-radius:
   <p><strong>Aluno:</strong> Thiago Keller | <strong>RA:</strong> 10779365 | <strong>Curso:</strong> Mestrado de Computação Aplicada</p>
   <p><strong>Instituição:</strong> Universidade Presbiteriana Mackenzie | <strong>Professora:</strong> Dra Valeria Farinazzo Martins | <strong>Ano:</strong> 2026 (1º semestre)</p>
   <p>Projeto de Mestrado – Comparação de desempenho entre algoritmos clássicos de ordenação.</p>
+
+  <h2>Algoritmos</h2>
+  <p>Complexidade assintótica dos algoritmos implementados:</p>
+  <table class=""algoritmos-table"">
+    <thead>
+      <tr><th>Algoritmo</th><th>Melhor Caso</th><th>Caso Médio</th><th>Pior Caso</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Bubble Sort</td><td><code>O(n²)</code></td><td><code>O(n²)</code></td><td><code>O(n²)</code></td></tr>
+      <tr><td>Bubble Sort (Optimized)</td><td><code>O(n)</code></td><td><code>O(n²)</code></td><td><code>O(n²)</code></td></tr>
+      <tr><td>Selection Sort</td><td><code>O(n²)</code></td><td><code>O(n²)</code></td><td><code>O(n²)</code></td></tr>
+      <tr><td>Selection Sort (Double)</td><td><code>O(n²)</code></td><td><code>O(n²)</code></td><td><code>O(n²)</code></td></tr>
+      <tr><td>Insertion Sort</td><td><code>O(n)</code></td><td><code>O(n²)</code></td><td><code>O(n²)</code></td></tr>
+      <tr><td>Insertion Sort (Sentinel)</td><td><code>O(n)</code></td><td><code>O(n²)</code></td><td><code>O(n²)</code></td></tr>
+      <tr><td>Merge Sort</td><td><code>O(n log n)</code></td><td><code>O(n log n)</code></td><td><code>O(n log n)</code></td></tr>
+      <tr><td>Merge Sort (Single Aux)</td><td><code>O(n log n)</code></td><td><code>O(n log n)</code></td><td><code>O(n log n)</code></td></tr>
+      <tr><td>Quick Sort</td><td><code>O(n log n)</code></td><td><code>O(n log n)</code></td><td><code>O(n²)</code></td></tr>
+      <tr><td>Quick Sort (Pivô Aleatório)</td><td><code>O(n log n)</code></td><td><code>O(n log n)</code></td><td><code>O(n²)</code></td></tr>
+      <tr><td>Quick Sort (Hoare + Median + Insertion)</td><td><code>O(n log n)</code></td><td><code>O(n log n)</code></td><td><code>O(n²)</code></td></tr>
+      <tr><td>Array.Sort (C# Nativo)</td><td><code>O(n log n)</code></td><td><code>O(n log n)</code></td><td><code>O(n log n)</code></td></tr>
+    </tbody>
+  </table>
 
   <h2>Informações da Máquina</h2>
   <p>Configuração fixa do hardware/software (comum a todos os relatórios). Dados como fonte de energia, memória GC e heap são específicos de cada execução e aparecem nos relatórios individuais.</p>
